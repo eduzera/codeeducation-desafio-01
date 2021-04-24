@@ -1,0 +1,17 @@
+FROM golang:1.16.3 AS builder
+
+WORKDIR /usr/local/go/src/hello
+
+COPY . .
+
+RUN go build hello
+
+CMD ["./hello"]
+
+FROM hello-world
+
+WORKDIR /usr/local/go/src/hello
+
+COPY --from=builder /usr/local/go/src/hello/hello .
+
+CMD ["./hello"]
